@@ -11,7 +11,7 @@ public class RecursionFrame extends JFrame
 	
 	public RecursionFrame(RecursionController baseController)
 	{
-		
+		this.baseController = baseController;
 	}
 	
 	private void setupFrame()
