@@ -14,8 +14,8 @@ public class RecursionPanel extends JPanel
 	private JButton fibonacciButton;
 	private JButton factorialButton;
 	private JTextField inputField;
-	private JTextField inputField_1;
-	private JTextArea displayArea;
+//	private JTextField inputField_1;
+	private JTextArea resultsArea;
 	private SpringLayout baseLayout;
 	
 	
@@ -23,13 +23,11 @@ public class RecursionPanel extends JPanel
 	{
 		this.baseController = baseController;
 		baseLayout = new SpringLayout();
-		factorialButton = new JButton("");
-		fibonacciButton = new JButton("FIB");
-		inputField = new JTextField("words can be typed here bro");
-		displayArea = new JTextArea(10,20);
-		inputField_1 = new JTextField(30);
-		
-		
+		factorialButton = new JButton("Get N!");
+		fibonacciButton = new JButton("Get the fionacci sequence for this number");
+		inputField = new JTextField(20);
+		resultsArea = new JTextArea(10,20);
+		//inputField_1 = new JTextField(30);
 		
 		
 		setupPanel();
@@ -42,38 +40,86 @@ public class RecursionPanel extends JPanel
 		this.setLayout(baseLayout);
 		this.setBackground(Color.BLACK);
 		this.add(factorialButton);
-		this.add(inputField_1);
+		this.add(inputField);
 		this.add(fibonacciButton);
-		this.add(displayArea);
-		inputField_1.setToolTipText("Type here to talk");
-		displayArea.setEnabled(false);
+		this.add(resultsArea);
+		inputField.setToolTipText("Type here to talk");
+		resultsArea.setWrapStyleWord(true);
+		resultsArea.setLineWrap(true);
+		resultsArea.setText(baseController.getCalculatedValue());
 	}
 	
 	private void setupLayout()
 	{
-		baseLayout.putConstraint(SpringLayout.NORTH, displayArea, 69, SpringLayout.SOUTH, inputField_1);
-		baseLayout.putConstraint(SpringLayout.NORTH, inputField_1, 55, SpringLayout.NORTH, this);
-		baseLayout.putConstraint(SpringLayout.WEST, inputField_1, 203, SpringLayout.WEST, this);
-		baseLayout.putConstraint(SpringLayout.WEST, displayArea, 264, SpringLayout.WEST, this);
 		baseLayout.putConstraint(SpringLayout.SOUTH, fibonacciButton, -87, SpringLayout.SOUTH, this);
 		baseLayout.putConstraint(SpringLayout.EAST, fibonacciButton, -64, SpringLayout.EAST, this);
-		baseLayout.putConstraint(SpringLayout.WEST, factorialButton, 47, SpringLayout.WEST, this);
-		baseLayout.putConstraint(SpringLayout.SOUTH, factorialButton, -103, SpringLayout.SOUTH, this);
+		baseLayout.putConstraint(SpringLayout.WEST, factorialButton, 137, SpringLayout.WEST, this);
+		baseLayout.putConstraint(SpringLayout.NORTH, factorialButton, 0, SpringLayout.NORTH, fibonacciButton);
+		baseLayout.putConstraint(SpringLayout.WEST, resultsArea, 50, SpringLayout.WEST, this);
+		baseLayout.putConstraint(SpringLayout.SOUTH, resultsArea, -31, SpringLayout.NORTH, factorialButton);
+		baseLayout.putConstraint(SpringLayout.EAST, resultsArea, -50, SpringLayout.EAST, this);
+	//	baseLayout.putConstraint(SpringLayout.NORTH, inputField_1, 55, SpringLayout.NORTH, this);
+	//	baseLayout.putConstraint(SpringLayout.WEST, inputField_1, 218, SpringLayout.WEST, this);
+		
 		
 		
 	}
 	
 	private void setupListeners()
 	{
+		fibonacciButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				String userInput = inputField.getText();
+				if(checkInput(userInput))
+				{
+					resultsArea.setText(baseController.doFibonacci(userInput));
+				}
+			}
+			
+		});
 		
+		factorialButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				String userInput = inputField.getText();
+				if(checkInput(userInput))
+				{
+					resultsArea.setText(baseController.doFactorial(userInput));
+				}
+			}
+
+		});
+	}
+
+	
+	private boolean checkInput(String input)
+	{
+		boolean isNumber = false;
+		
+		
+		try
+		{
+			Double.parseDouble(input);
+			isNumber = true;
+		}
+		catch(Exception numberException)
+		{
+			resultsArea.setText("type in a number!!!!!!");
+		}
+		
+		
+		return isNumber;
 	}
 	
 		
 			
-	public JTextField getTextField()
-	{
-		return inputField;
-	}
+	//public JTextField getTextField()
+	//{
+	//	return inputField;
+	//}
 	
 }
 		
