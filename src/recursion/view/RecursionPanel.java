@@ -1,6 +1,7 @@
 package recursion.view;
 
 import javax.swing.*;
+import recursion.model.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ public class RecursionPanel extends JPanel
 //	private JTextField inputField_1;
 	private JTextArea resultsArea;
 	private SpringLayout baseLayout;
+	private JLabel timingLabel;
 	
 	
 	public RecursionPanel(RecursionController baseController)
@@ -27,6 +29,8 @@ public class RecursionPanel extends JPanel
 		fibonacciButton = new JButton("Get the fionacci sequence for this number");
 		inputField = new JTextField(20);
 		resultsArea = new JTextArea(10,20);
+		timingLabel = new JLabel ("Timer");
+		
 		//inputField_1 = new JTextField(30);
 		
 		
@@ -38,15 +42,17 @@ public class RecursionPanel extends JPanel
 	private void setupPanel()
 	{
 		this.setLayout(baseLayout);
-		this.setBackground(Color.BLACK);
+		this.setBackground(Color.CYAN);
 		this.add(factorialButton);
 		this.add(inputField);
 		this.add(fibonacciButton);
 		this.add(resultsArea);
+		this.add(timingLabel);
 		inputField.setToolTipText("Type here to talk");
 		resultsArea.setWrapStyleWord(true);
 		resultsArea.setLineWrap(true);
 		resultsArea.setText(baseController.getCalculatedValue());
+		
 	}
 	
 	private void setupLayout()
@@ -60,8 +66,10 @@ public class RecursionPanel extends JPanel
 		baseLayout.putConstraint(SpringLayout.EAST, resultsArea, -50, SpringLayout.EAST, this);
 	//	baseLayout.putConstraint(SpringLayout.NORTH, inputField_1, 55, SpringLayout.NORTH, this);
 	//	baseLayout.putConstraint(SpringLayout.WEST, inputField_1, 218, SpringLayout.WEST, this);
-		
-		
+		baseLayout.putConstraint(SpringLayout.WEST, timingLabel, 121, SpringLayout.WEST, this);
+		baseLayout.putConstraint(SpringLayout.SOUTH, timingLabel, -39, SpringLayout.NORTH, resultsArea);
+		baseLayout.putConstraint(SpringLayout.NORTH, inputField, 80, SpringLayout.NORTH, this);
+		baseLayout.putConstraint(SpringLayout.WEST, inputField, 276, SpringLayout.WEST, this);
 		
 	}
 	
@@ -76,6 +84,7 @@ public class RecursionPanel extends JPanel
 				{
 					resultsArea.setText(baseController.doFibonacci(userInput));
 				}
+				timingLabel.setText(baseController.timingInfo());
 			}
 			
 		});
@@ -89,6 +98,7 @@ public class RecursionPanel extends JPanel
 				{
 					resultsArea.setText(baseController.doFactorial(userInput));
 				}
+				timingLabel.setText(baseController.timingInfo());
 			}
 
 		});
